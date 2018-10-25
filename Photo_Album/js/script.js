@@ -8,11 +8,11 @@ setInterval(loop, 1000);
 var STORAGE_KEY = 'vue-js-test-L8zmbAdW'
 var commentStorage = {
   fetch: function () {
-    var commentArray = JSON.parse(localStorage.getItem(STORAGE_KEY) || '[]');
-    return commentArray;
+    var comments = JSON.parse(localStorage.getItem(STORAGE_KEY) || '[]');
+    return comments;
   },
-  save: function (commentArray) {
-    localStorage.setItem(STORAGE_KEY, JSON.stringify(commentArray));
+  save: function (comments) {
+    localStorage.setItem(STORAGE_KEY, JSON.stringify(comments));
   }
 }
 
@@ -57,7 +57,7 @@ const UserCard = {
       <div class="content">
         <p><strong>{{ user.likes }} Likes</strong></p>
         <transition-group tag="div" name="list" class="comment-wrap">
-          <div class="comment" v-for="(comment, index) in commentArray" :key="comment">
+          <div class="comment" v-for="(comment, index) in comments" :key="comment">
             {{ comment.text }}
             <a>@santa</a>
             <a href="#">#css</a>
@@ -87,7 +87,7 @@ const UserCard = {
   data: function () {
     return {
       inputVal: '',
-      commentArray: commentStorage.fetch()
+      comments: commentStorage.fetch()
     }
   },
   props: [ 'user' ],
@@ -97,9 +97,9 @@ const UserCard = {
     }
   },
   watch: {
-    commentArray: {
-      handler: function (commentArray) {
-        commentStorage.save(commentArray);
+    comments: {
+      handler: function (comments) {
+        commentStorage.save(comments);
       }
     }
   },
@@ -107,7 +107,7 @@ const UserCard = {
     addComment: function (e) {
       e.preventDefault();
       if (this.inputVal) {
-        this.commentArray.push({
+        this.comments.push({
           text: this.inputVal,
           time: now
         });
