@@ -5,7 +5,7 @@ function loop () {
 }
 setInterval(loop, 1000);
 
-var STORAGE_KEY = 'vue-js-test-L8zmbAdW'
+var STORAGE_KEY = 'vue-js-test-L5hH3xAq';
 var commentStorage = {
   fetch: function () {
     var comments = JSON.parse(localStorage.getItem(STORAGE_KEY) || '[]');
@@ -57,13 +57,15 @@ const UserCard = {
       <div class="content">
         <p><strong>{{ user.likes }} Likes</strong></p>
         <transition-group tag="div" name="list" class="comment-wrap">
-          <div class="comment" v-for="(comment, index) in comments" :key="comment">
-            {{ comment.text }}
-            <a>@santa</a>
-            <a href="#">#css</a>
-            <a href="#">#responsive</a>
-            <br>
-            <time>{{ comment.time | moment }}</time>
+          <div class="comment" v-for="comment in comments" :key="comment">
+            <div class="comment-item" v-if="idCheck(comment.id)">
+              {{ comment.text }}
+              <a>@santa</a>
+              <a href="#">#css</a>
+              <a href="#">#responsive</a>
+              <br>
+              <time>{{ comment.time | moment }}</time>
+            </div>
           </div>
         </transition-group>
       </div>
@@ -108,10 +110,18 @@ const UserCard = {
       e.preventDefault();
       if (this.inputVal) {
         this.comments.push({
+          id: this.user.id,
           text: this.inputVal,
           time: now
         });
         this.inputVal = '';
+      }
+    },
+    idCheck: function (id) {
+      if (this.user.id === id) {
+        return true;
+      } else {
+        return false;
       }
     }
   }
